@@ -6,6 +6,7 @@ public class ControlaJogador : MonoBehaviour
 {
 
     public float Velocidade = 10;
+    Vector3 direcao;
 
     // Update is called once per frame
     void Update()
@@ -14,11 +15,7 @@ public class ControlaJogador : MonoBehaviour
         float eixoX = Input.GetAxis("Horizontal");
         float eixoZ = Input.GetAxis("Vertical");
 
-        Vector3 direcao = new Vector3(eixoX, 0, eixoZ);
-
-        // Time.deltaTime = tempo para rodar cada quadro. Resultado: vai mover 1 quadro por segundo
-        // * 10 pra ajustar velocidade
-        transform.Translate(direcao * Velocidade * Time.deltaTime);
+        direcao = new Vector3(eixoX, 0, eixoZ);
 
         if(direcao != Vector3.zero)
         {
@@ -28,5 +25,12 @@ public class ControlaJogador : MonoBehaviour
         {
             GetComponent<Animator>().SetBool("Movendo", false);
         }
+    }
+
+    void FixedUpdate()
+    {
+        GetComponent<Rigidbody>().MovePosition
+            (GetComponent<Rigidbody>().position +
+            (direcao * Velocidade * Time.deltaTime));
     }
 }
