@@ -29,6 +29,7 @@ public class ControlaJogador : MonoBehaviour
 
     void FixedUpdate()
     {
+        // * Time.deltaTime para movimentar por segundo, não baseado nos frames
         GetComponent<Rigidbody>().MovePosition
             (GetComponent<Rigidbody>().position +
             (direcao * Velocidade * Time.deltaTime));
