@@ -14,4 +14,14 @@ public class Bala : MonoBehaviour
             (GetComponent<Rigidbody>().position + 
             transform.forward * Velocidade * Time.deltaTime);
     }
+
+    // Chamado quando bala colidir com outro objeto
+    void OnTriggerEnter(Collider objectDeColisao)
+    {
+        if (objectDeColisao.tag == "Inimigo") {
+            Destroy(objectDeColisao.gameObject);
+        }
+
+        Destroy(gameObject);
+    }
 }
