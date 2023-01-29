@@ -7,14 +7,18 @@ public class ControlaJogador : MonoBehaviour
 {
 
     public float Velocidade = 10;
-    Vector3 direcao;
+    private Vector3 direcao;
     public LayerMask MascaraDoChao;
     public GameObject TextoGameOver;
     public bool Vivo = true;
+    private Rigidbody rigidbodyJogador;
+    private Animator animatorJogador;
 
     private void Start()
     {
         Time.timeScale = 1;
+        rigidbodyJogador = GetComponent<Rigidbody>();
+        animatorJogador = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,11 +32,11 @@ public class ControlaJogador : MonoBehaviour
 
         if(direcao != Vector3.zero)
         {
-            GetComponent<Animator>().SetBool("Movendo", true);
+            animatorJogador.SetBool("Movendo", true);
         }
         else
         {
-            GetComponent<Animator>().SetBool("Movendo", false);
+            animatorJogador.SetBool("Movendo", false);
         }
 
         if(!Vivo)
@@ -47,8 +51,8 @@ public class ControlaJogador : MonoBehaviour
     void FixedUpdate()
     {
         // * Time.deltaTime para movimentar por segundo, não baseado nos frames
-        GetComponent<Rigidbody>().MovePosition
-            (GetComponent<Rigidbody>().position +
+        rigidbodyJogador.MovePosition
+            (rigidbodyJogador.position +
             (direcao * Velocidade * Time.deltaTime));
         
         // Raio que parte da camera principal até a posição do ponteiro do mouse
@@ -70,7 +74,7 @@ public class ControlaJogador : MonoBehaviour
             posicaoMiraJogador.y = transform.position.y;
 
             Quaternion novaRotacao = Quaternion.LookRotation(posicaoMiraJogador);
-            GetComponent<Rigidbody>().MoveRotation(novaRotacao);
+            rigidbodyJogador.MoveRotation(novaRotacao);
         }
     }
 }
