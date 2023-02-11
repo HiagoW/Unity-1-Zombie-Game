@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ControlaJogador : MonoBehaviour
+public class ControlaJogador : MonoBehaviour, IMatavel
 {
 
-    public float Velocidade = 10;
     private Vector3 direcao;
     public LayerMask MascaraDoChao;
     public GameObject TextoGameOver;
-    private Rigidbody rigidbodyJogador;
-    private Animator animatorJogador;
-    public int Vida = 100;
     public ControlaInterface scriptControlaInterface;
     public AudioClip SomDeDano;
+    private MovimentoJogador meuMovimentoJogador;
+    private AnimacaoPersonagem animacaoJogador;
+    public Status statusJogador;
 
     private void Start()
     {
         Time.timeScale = 1;
-        rigidbodyJogador = GetComponent<Rigidbody>();
-        animatorJogador = GetComponent<Animator>();
+        meuMovimentoJogador = GetComponent<MovimentoJogador>();
+        animacaoJogador = GetComponent<AnimacaoPersonagem>();
+        statusJogador = GetComponent<Status>();
     }
 
     // Update is called once per frame
@@ -32,16 +32,9 @@ public class ControlaJogador : MonoBehaviour
 
         direcao = new Vector3(eixoX, 0, eixoZ);
 
-        if(direcao != Vector3.zero)
-        {
-            animatorJogador.SetBool("Movendo", true);
-        }
-        else
-        {
-            animatorJogador.SetBool("Movendo", false);
-        }
+        animacaoJogador.Movimentar(direcao.magnitude);
 
-        if(Vida <= 0)
+        if(statusJogador.Vida <= 0)
         {
             if (Input.GetButtonDown("Fire1"))
             {
@@ -52,43 +45,25 @@ public class ControlaJogador : MonoBehaviour
 
     void FixedUpdate()
     {
-        // * Time.deltaTime para movimentar por segundo, não baseado nos frames
-        rigidbodyJogador.MovePosition
-            (rigidbodyJogador.position +
-            (direcao * Velocidade * Time.deltaTime));
-        
-        // Raio que parte da camera principal até a posição do ponteiro do mouse
-        Ray raio = Camera.main.ScreenPointToRay(Input.mousePosition);
-        // * 100 para ver o raio
-        Debug.DrawRay(raio.origin, raio.direction * 100, Color.red);
+        meuMovimentoJogador.Movimentar(direcao, statusJogador.Velocidade);
 
-        // Onde raio toca o chão
-        RaycastHit impacto;
-        
-        // Lança um raio a partir de uma referência "raio" e detecta quando raio impactor em algo,
-        // limitando a busca a 100m e apenas a camada do chão
-        if(Physics.Raycast(raio, out impacto, 100, MascaraDoChao))
-        {
-            // posição do impacto referente à posição do jogador
-            Vector3 posicaoMiraJogador = impacto.point - transform.position;
-
-            // Trava em Y para não mirar pra cima ou para baixo
-            posicaoMiraJogador.y = transform.position.y;
-
-            Quaternion novaRotacao = Quaternion.LookRotation(posicaoMiraJogador);
-            rigidbodyJogador.MoveRotation(novaRotacao);
-        }
+        meuMovimentoJogador.RotacaoJogador(MascaraDoChao);
     }
 
     public void TomarDano(int dano)
     {
-        Vida -= dano;
+        statusJogador.Vida -= dano;
         scriptControlaInterface.AtualizarSliderVidaJogador();
         ControlaAudio.instancia.PlayOneShot(SomDeDano);
-        if (Vida <= 0)
+        if (statusJogador.Vida <= 0)
         {
-            Time.timeScale = 0;
-            TextoGameOver.SetActive(true);
+            Morrer();
         }
+    }
+
+    public void Morrer()
+    {
+        Time.timeScale = 0;
+        TextoGameOver.SetActive(true);
     }
 }
