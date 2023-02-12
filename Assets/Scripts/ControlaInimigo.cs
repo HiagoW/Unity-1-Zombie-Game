@@ -10,6 +10,11 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
     private AnimacaoPersonagem animacaoInimigo;
     private Status statusInimigo;
     public AudioClip SomDeMorte;
+    private Vector3 posicaoAleatoria;
+    private Vector3 direcao;
+    private float contadorVagar;
+    // 4 segundos
+    private float tempoEntrePosicoesAleatorias = 4;
 
     // Start is called before the first frame update
     void Start()
@@ -25,14 +30,19 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
     {
         float distancia = Vector3.Distance(transform.position, Jogador.transform.position);
 
-        //Direcao do jogador em relacao ao inimigo
-        Vector3 direcao = Jogador.transform.position - transform.position;
-
         movimentaInimigo.Rotacionar(direcao);
+        animacaoInimigo.Movimentar(direcao.magnitude);
 
-        // 2 = soma dos raios dos colisores do jogador e do inimigo
-        if (distancia > 2.5)
+        if (distancia > 15)
         {
+            Vagar();
+        }
+        // 2 = soma dos raios dos colisores do jogador e do inimigo
+        else if (distancia > 2.5)
+        {
+            //Direcao do jogador em relacao ao inimigo
+            direcao = Jogador.transform.position - transform.position;
+
             movimentaInimigo.Movimentar(direcao, statusInimigo.Velocidade);
 
             animacaoInimigo.Atacar(false);
@@ -41,6 +51,32 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
         {
             animacaoInimigo.Atacar(true);
         }
+    }
+
+    void Vagar()
+    {
+        contadorVagar -= Time.deltaTime;
+        if(contadorVagar <= 0)
+        {
+            posicaoAleatoria = AleatorizarPosicao();
+            contadorVagar += tempoEntrePosicoesAleatorias;
+        }
+
+        // MUITO difícil chegar exatamente na mesma posição, por isso usamos 0.05
+        bool ficouPertoOSuficiente = Vector3.Distance(transform.position, posicaoAleatoria) <= 0.05;
+        if (ficouPertoOSuficiente == false)
+        {
+            direcao = posicaoAleatoria - transform.position;
+            movimentaInimigo.Movimentar(direcao, statusInimigo.Velocidade);
+        }
+    }
+
+    Vector3 AleatorizarPosicao()
+    {
+        Vector3 posicao = Random.insideUnitSphere * 10;
+        posicao += transform.position;
+        posicao.y = transform.position.y;
+        return posicao;
     }
 
     void AtacaJogador()
