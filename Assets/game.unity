@@ -11063,6 +11063,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GeradorZumbis
       objectReference: {fileID: 0}
+    - target: {fileID: 403490588067145235, guid: e9703e1d8a5521c47828672247e4a652, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 403490588067145709, guid: e9703e1d8a5521c47828672247e4a652, type: 3}
       propertyPath: m_RootOrder
       value: 7

@@ -18,6 +18,8 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
     private float porcentagemGerarKitMedico = 0.1f;
     public GameObject KitMedicoPrefab;
     private ControlaInterface scriptControlaInterface;
+    [HideInInspector]
+    public GeradorZumbis meuGerador;
 
 
     // Start is called before the first frame update
@@ -66,7 +68,7 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
         if(contadorVagar <= 0)
         {
             posicaoAleatoria = AleatorizarPosicao();
-            contadorVagar += tempoEntrePosicoesAleatorias;
+            contadorVagar += tempoEntrePosicoesAleatorias + Random.Range(-1f, 1f);
         }
 
         // MUITO difícil chegar exatamente na mesma posição, por isso usamos 0.05
@@ -109,10 +111,14 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
 
     public void Morrer()
     {
-        Destroy(gameObject);
+        Destroy(gameObject, 2);
+        animacaoInimigo.Morrer();
+        movimentaInimigo.Morrer();
+        this.enabled = false;   
         ControlaAudio.instancia.PlayOneShot(SomDeMorte);
         VerificarGeracaoKitMedico(porcentagemGerarKitMedico);
         scriptControlaInterface.AtualizarQuantidadeDeZumbisMortos();
+        meuGerador.DiminuirQuantidadeDeZumbisVivos();
     }
 
     void VerificarGeracaoKitMedico(float porcentagemGeracao)
