@@ -26,8 +26,13 @@ public class Bala : MonoBehaviour
     // Chamado quando bala colidir com outro objeto
     void OnTriggerEnter(Collider objectDeColisao)
     {
-        if (objectDeColisao.tag == Tags.Inimigo) {
-            objectDeColisao.GetComponent<ControlaInimigo>().TomarDano(danoDoTiro);
+        switch (objectDeColisao.tag) {
+            case Tags.Inimigo:
+                objectDeColisao.GetComponent<ControlaInimigo>().TomarDano(danoDoTiro);
+                break;
+            case Tags.ChefeDeFase:
+                objectDeColisao.GetComponent<ControlaChefe>().TomarDano(danoDoTiro);
+                break;
         }
 
         Destroy(gameObject);

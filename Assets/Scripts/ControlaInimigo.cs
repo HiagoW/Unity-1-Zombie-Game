@@ -25,11 +25,11 @@ public class ControlaInimigo : MonoBehaviour, IMatavel
     // Start is called before the first frame update
     void Start()
     {
+        statusInimigo = GetComponent<Status>();
         Jogador = GameObject.FindWithTag(Tags.Jogador);
         movimentaInimigo = GetComponent<MovimentoPersonagem>();
         animacaoInimigo = GetComponent<AnimacaoPersonagem>();
         AleatorizarZumbi();
-        statusInimigo = GetComponent<Status>();
         scriptControlaInterface = GameObject.FindObjectOfType(typeof(ControlaInterface)) as ControlaInterface;
     }
 
