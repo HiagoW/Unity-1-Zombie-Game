@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &862479190
 RectTransform:
   m_ObjectHideFlags: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d3d29ebc43a9e194ba79f7f11a48e87a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 64cfbd8f2a2275d47a728568130e48a6, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 1533791845}
   - component: {fileID: 1533791844}
   - component: {fileID: 1533791843}
+  - component: {fileID: 1533791846}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -343,6 +344,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1533791846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533791841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 352a658947f5a10448ac31f1c25b060e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1904045171
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,6 +592,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KitMedicoPrefab: {fileID: 1060151288946202, guid: 6150c6f66b7034ec5b3672478195682a, type: 3}
   sliderVidaChefe: {fileID: 1381815077}
+  ImagemSlider: {fileID: 1472268157}
+  CorDaVidaMaxima: {r: 0.34117648, g: 1, b: 0.34117648, a: 1}
+  CorDaVidaMinima: {r: 1, g: 0.32941177, b: 0.32156864, a: 1}
 --- !u!1 &1065480718027956
 GameObject:
   m_ObjectHideFlags: 0
