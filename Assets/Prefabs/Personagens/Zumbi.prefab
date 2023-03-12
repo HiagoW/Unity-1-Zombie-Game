@@ -662,6 +662,7 @@ MonoBehaviour:
   SomDeMorte: {fileID: 8300000, guid: e837cb9b292eddd43a5d1ebfc31f5815, type: 3}
   KitMedicoPrefab: {fileID: 1060151288946202, guid: 6150c6f66b7034ec5b3672478195682a, type: 3}
   meuGerador: {fileID: 0}
+  ParticulaSangueZumbi: {fileID: 2050740164395589883, guid: 7d8bc6fb35c7cc045aa564dfa5b14d81, type: 3}
 --- !u!54 &330014357377061560
 Rigidbody:
   m_ObjectHideFlags: 0

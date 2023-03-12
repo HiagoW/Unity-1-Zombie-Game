@@ -26,12 +26,17 @@ public class Bala : MonoBehaviour
     // Chamado quando bala colidir com outro objeto
     void OnTriggerEnter(Collider objectDeColisao)
     {
+        Quaternion rotacaoOpostaABala = Quaternion.LookRotation(-transform.forward);
         switch (objectDeColisao.tag) {
             case Tags.Inimigo:
-                objectDeColisao.GetComponent<ControlaInimigo>().TomarDano(danoDoTiro);
+                ControlaInimigo inimigo = objectDeColisao.GetComponent<ControlaInimigo>();
+                inimigo.TomarDano(danoDoTiro);
+                inimigo.ParticulaSangue(transform.position, rotacaoOpostaABala);
                 break;
             case Tags.ChefeDeFase:
-                objectDeColisao.GetComponent<ControlaChefe>().TomarDano(danoDoTiro);
+                ControlaChefe chefe = objectDeColisao.GetComponent<ControlaChefe>();
+                chefe.TomarDano(danoDoTiro);
+                chefe.ParticulaSangue(transform.position, rotacaoOpostaABala);
                 break;
         }
 
